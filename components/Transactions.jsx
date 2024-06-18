@@ -1,26 +1,20 @@
 import {
-  Image,
-  ScrollView,
   StyleSheet,
   Text,
-  ToastAndroid,
-  Touchable,
-  TouchableOpacity,
   View,
+  ScrollView,
+  Image,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors, typography } from '../../constant/values';
-import Swiper from 'react-native-deck-swiper';
-import ViewOverflow from 'react-native-view-overflow';
+import { colors, typography } from '../constant/values';
 import { FlashList } from '@shopify/flash-list';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { BarChart } from 'react-native-gifted-charts';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const Home = () => {
-  const insets = useSafeAreaInsets();
-
-  const paymentCards = ['mPesa', 'PayPal', 'Stripe', 'Banking', 'CashApp'];
-  const friends = ['RO', 'SK', 'TN', 'WM', 'RO', 'SO', 'LM', 'DN', 'MS', 'DB'];
+const Transactions = () => {
   const transactions = [
     {
       paymentCard: 'mPesa',
@@ -184,170 +178,126 @@ const Home = () => {
     },
   ];
 
-  console.log(transactions);
+  const barData = [
+    { value: 250, label: 'M' },
+    { value: 500, label: 'T', frontColor: '#177AD5' },
+    { value: 845, label: 'W', frontColor: '#177AD5' },
+    { value: 320, label: 'T' },
+    { value: 600, label: 'F', frontColor: '#177AD5' },
+    { value: 256, label: 'S' },
+    { value: 300, label: 'S' },
+  ];
+
+  const insets = useSafeAreaInsets();
 
   return (
-    <View
+    <ScrollView
       style={{
-        ...styles.container,
-        paddingTop: insets.top,
+        width: '100%',
+        paddingTop: insets.top + 10,
+        backgroundColor: colors.primary[100],
+        paddingBottom: insets.bottom,
       }}
     >
-      {/* TODO
-      make it  a touchable opacity
-      picture stored in a database
-      name stored in a database  */}
-      <View style={styles.profileContainer}>
-        <Image
+      <View style={{ paddingHorizontal: 20, paddingBottom: 32 }}>
+        <View
           style={{
-            width: 40,
-            height: 40,
-            borderRadius: 20,
-            marginRight: typography.lineHeight.small,
+            width: '100%',
+            height: 200,
+            padding: 20,
+            backgroundColor: colors.tertiary.success[900],
+            borderRadius: typography.fontSize.xsmall,
           }}
-          source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
-        />
-        <View>
+        >
+          <Text>MPesa</Text>
+        </View>
+      </View>
+      <View
+        style={{
+          paddingHorizontal: 20,
+          backgroundColor: '#fff',
+          paddingTop: 32,
+          paddingBottom: -32,
+        }}
+      >
+        <LinearGradient colors={['transparent']} style={{ height: 260 }}>
+          <BarChart
+            barWidth={28}
+            noOfSections={3}
+            barBorderRadius={4}
+            frontColor="lightgray"
+            data={barData}
+            yAxisThickness={0}
+            xAxisThickness={0}
+            dashGap={0}
+            spacing={16}
+            // showYAxisIndices
+            // showXAxisIndices
+            isAnimated
+          />
+        </LinearGradient>
+      </View>
+      <View
+        style={{
+          paddingHorizontal: 20,
+          paddingVertical: 20,
+          width: '100%',
+          backgroundColor: '#fff',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '6%',
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            width: '47%',
+            height: 48,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: typography.fontSize.xsmall,
+            backgroundColor: colors.tertiary.success[800],
+          }}
+          onPress={() => {}}
+        >
           <Text
             style={{
+              color: '#fff',
               fontWeight: typography.fontWeight.semiBold,
-              lineHeight: typography.lineHeight.medium,
-              fontSize: typography.fontSize.large + 2,
+              fontSize: typography.fontSize.medium,
+              lineHeight: typography.lineHeight.large,
               letterSpacing: 1,
             }}
           >
-            Rooney Okari
+            Add Friend
           </Text>
-          <Text style={{ fontSize: typography.fontSize.medium }}>
-            Say hey in a <Text>financial</Text> cool way &#129321;
-          </Text>
-        </View>
-      </View>
-      <ViewOverflow style={styles.cardContainer}>
-        <Swiper
-          cards={paymentCards}
-          stackSeparation={2}
-          verticalThreshold={200 / 6}
-          animateCardOpacity={true}
-          cardIndex={0}
-          infinite={true}
-          backgroundColor={colors.primary[100]}
-          verticalSwipe={true}
-          showSecondCard={true}
-          horizontalSwipe={false}
-          stackSize={2}
-          onSwipedTop={() => console.log('onSwipedTop')}
-          onSwipedBottom={() => console.log('onSwipedBottom')}
-          onTapCard={(card) => console.log(card)}
-          renderCard={(card) => {
-            return (
-              <View style={styles.cardLayout}>
-                <Text>{card}</Text>
-              </View>
-            );
-          }}
-        />
-      </ViewOverflow>
-      <View style={{ padding: 20 }}>
-        <Text
+        </TouchableOpacity>
+        <TouchableOpacity
           style={{
-            fontWeight: typography.fontWeight.semiBold,
-            fontSize: typography.fontSize.medium,
-            lineHeight: typography.lineHeight.large,
-            letterSpacing: 1,
-          }}
-          >
-          Send again &#128184;
-        </Text>
-        <Text
-          style={{
-            fontSize: typography.fontSize.medium,
-            lineHeight: typography.lineHeight.medium,
-            letterSpacing: 1,
-          }}
-        >
-          Send funds to your friends
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
+            width: '47%',
+            height: 48,
+            justifyContent: 'center',
             alignItems: 'center',
-            marginTop: typography.lineHeight.small,
-            marginBottom: 6,
+            borderRadius: typography.fontSize.xsmall,
+            backgroundColor: colors.primary[800],
           }}
+          onPress={() => {}}
         >
-          <View
+          <Text
             style={{
-              flexDirection: 'column',
-              alignItems: 'center',
-              marginRight: typography.lineHeight.small,
+              color: '#fff',
+              fontWeight: typography.fontWeight.semiBold,
+              fontSize: typography.fontSize.medium,
+              lineHeight: typography.lineHeight.large,
+              letterSpacing: 1,
             }}
           >
-            <TouchableOpacity
-              style={{
-                width: 68,
-                height: 68,
-                borderRadius: 34,
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: colors.primary[900],
-              }}
-              onPress={() => {}}
-            >
-              <Ionicons name="add" size={42} color="white" />
-            </TouchableOpacity>
-            <Text
-              style={{
-                fontSize: typography.fontSize.medium,
-                fontWeight: typography.fontWeight.semiBold,
-                marginTop: typography.lineHeight.small - 4,
-                alignText: 'center',
-                letterSpacing: 1,
-              }}
-            >
-              Add
-            </Text>
-          </View>
-          <FlashList
-            data={friends}
-            estimatedItemSize={100}
-            showsHorizontalScrollIndicator={false}
-            horizontal={true}
-            renderItem={({ item }) => (
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexDirection: 'column',
-                  marginRight: 10,
-                }}
-              >
-                <View
-                  style={{
-                    ...styles.profilecard,
-                    backgroundColor: colors.primary[100],
-                    backgroundColor: 'red',
-                  }}
-                >
-                  <Text>{item}</Text>
-                </View>
-                <Text
-                  style={{
-                    fontSize: typography.fontSize.medium,
-                    fontWeight: typography.fontWeight.semiBold,
-                    alignText: 'center',
-                    marginTop: typography.lineHeight.small - 4,
-                    letterSpacing: 1,
-                  }}
-                >
-                  {item}
-                </Text>
-              </View>
-            )}
-          />
-        </View>
+            Transaction List
+          </Text>
+        </TouchableOpacity>
       </View>
-      <View style={{ width: '100%', height: 700 }}>
+      <View style={{ width: '100%', backgroundColor: '#fff' }}>
         <FlashList
           data={transactions}
           estimatedItemSize={100}
@@ -356,7 +306,7 @@ const Home = () => {
           renderItem={({ item }) => {
             console.log(item);
             return (
-              // ToDo 
+              // ToDo
               // Limit the characters in the notes ,
               // images from DrawerLayoutAndroidBase(try using custom avatars)
               // alternate image view when there is no transaction list
@@ -459,42 +409,10 @@ const Home = () => {
           }}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
-export default Home;
+export default Transactions;
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-  },
-  profileContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 20,
-  },
-  cardLayout: {
-    padding: 20,
-    backgroundColor: colors.secondary.light,
-    width: '100%',
-    height: 200,
-    borderRadius: typography.fontSize.xsmall,
-    position: 'absolute',
-    top: -38,
-  },
-  cardContainer: {
-    paddingHorizontal: 20,
-    height: 250,
-    justifyContent: 'center',
-    alignItems: 'center',
-    overflow: 'visible',
-  },
-  profilecard: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const styles = StyleSheet.create({});
